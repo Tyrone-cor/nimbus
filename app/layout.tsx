@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Nimbus — Think it through",
+  title: "Nimbus",
   description: "A thoughtful AI chat powered by OpenRouter.",
 };
 
