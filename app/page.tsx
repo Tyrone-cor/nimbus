@@ -55,19 +55,41 @@ export default function Home() {
 
     const updateKeyboardInset = () => {
       const visibleViewportBottom = viewport.offsetTop + viewport.height;
-      const keyboardInset = Math.max(0, window.innerHeight - visibleViewportBottom);
+      const layoutViewportHeight = document.documentElement.clientHeight;
+      const keyboardInset = Math.max(0, layoutViewportHeight - visibleViewportBottom);
       document.documentElement.style.setProperty("--keyboard-inset-bottom", `${keyboardInset}px`);
+    };
+
+    let focusFrame = 0;
+    const refreshAfterFocus = () => {
+      cancelAnimationFrame(focusFrame);
+      updateKeyboardInset();
+
+      let frameCount = 0;
+      const refresh = () => {
+        updateKeyboardInset();
+        frameCount += 1;
+        if (frameCount < 8) focusFrame = requestAnimationFrame(refresh);
+      };
+      focusFrame = requestAnimationFrame(refresh);
+    };
+
+    const handleFocusIn = (event: FocusEvent) => {
+      if (event.target === textareaRef.current) refreshAfterFocus();
     };
 
     updateKeyboardInset();
     viewport.addEventListener("resize", updateKeyboardInset);
     viewport.addEventListener("scroll", updateKeyboardInset);
     window.addEventListener("resize", updateKeyboardInset);
+    window.addEventListener("focusin", handleFocusIn);
 
     return () => {
+      cancelAnimationFrame(focusFrame);
       viewport.removeEventListener("resize", updateKeyboardInset);
       viewport.removeEventListener("scroll", updateKeyboardInset);
       window.removeEventListener("resize", updateKeyboardInset);
+      window.removeEventListener("focusin", handleFocusIn);
       document.documentElement.style.removeProperty("--keyboard-inset-bottom");
     };
   }, []);
