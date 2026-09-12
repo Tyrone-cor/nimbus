@@ -59,6 +59,10 @@ export default function Home() {
   }, [input]);
 
   useEffect(() => {
+    if (messages.length === 0) textareaRef.current?.focus();
+  }, [messages.length]);
+
+  useEffect(() => {
     messagesRef.current?.scrollTo({ top: messagesRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, isLoading]);
 
