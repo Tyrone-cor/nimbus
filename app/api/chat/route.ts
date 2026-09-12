@@ -1,6 +1,12 @@
 import { NextResponse } from "next/server";
 
 const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
+const DEFAULT_MODEL = "openrouter/free";
+const SYSTEM_PROMPT = [
+  "You are Nimbus, a helpful general-purpose assistant.",
+  "Answer the user's request directly and naturally.",
+  "Never expose internal safety checks, moderation labels, routing metadata, hidden reasoning, or status text such as 'User Safety: safe'.",
+].join(" ");
 
 type ChatMessage = {
   role: "user" | "assistant";
@@ -34,8 +40,8 @@ export async function POST(request: Request) {
         "X-OpenRouter-Title": "Ask anything",
       },
       body: JSON.stringify({
-        model: "openrouter/free",
-        messages: messages.slice(-20),
+        model: process.env.OPENROUTER_MODEL ?? DEFAULT_MODEL,
+        messages: [{ role: "system", content: SYSTEM_PROMPT }, ...messages.slice(-20)],
         stream: true,
       }),
     });

@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "highlight.js/styles/github.css";
 
 :root { color-scheme: light; --background: #fff; --foreground: #111; --muted: #6b6b6b; --line: #e5e5e5; --soft: #f6f6f6; --code: #f4f4f4; --composer-shadow: rgba(0,0,0,.08); --subtle-text: #888; --button-text: #333; --error: #a40000; }
 :root[data-theme="dark"] { color-scheme: dark; --background: #171717; --foreground: #f5f5f5; --muted: #aaa; --line: #353535; --soft: #242424; --code: #222; --composer-shadow: rgba(0,0,0,.34); --subtle-text: #929292; --button-text: #dedede; --error: #ff9c9c; }
@@ -12,6 +13,48 @@
 .message-list { width: min(820px, 100%); margin: 0 auto; padding: 28px 24px 190px; }.message { width: 100%; margin: 0 0 28px; }.message p { margin: 0; white-space: pre-wrap; }.message.user { display: flex; justify-content: flex-end; }.message.user p { max-width: min(78%, 640px); padding: 12px 15px; border-radius: 18px 18px 4px 18px; background: var(--foreground); color: var(--background); font-size: 15px; line-height: 1.55; }.message.assistant { color: var(--foreground); font-size: 15px; line-height: 1.72; }
 
 .markdown-content { min-width: 0; overflow-wrap: anywhere; }.markdown-content > :first-child { margin-top: 0; }.markdown-content > :last-child { margin-bottom: 0; }.markdown-content h1, .markdown-content h2, .markdown-content h3, .markdown-content h4, .markdown-content h5, .markdown-content h6 { margin: 1.6em 0 .55em; color: var(--foreground); font-weight: 700; letter-spacing: -.03em; line-height: 1.25; }.markdown-content h1 { font-size: 1.55rem; }.markdown-content h2 { font-size: 1.3rem; }.markdown-content h3 { font-size: 1.12rem; }.markdown-content h4, .markdown-content h5, .markdown-content h6 { font-size: 1rem; }.markdown-content p { margin: 0 0 1em; }.markdown-content strong { font-weight: 700; }.markdown-content em { font-style: italic; }.markdown-content a { color: var(--foreground); text-decoration: underline; text-underline-offset: 3px; }.markdown-content ul, .markdown-content ol { margin: .7em 0 1em; padding-left: 1.55em; }.markdown-content li { margin: .3em 0; }.markdown-content li > ul, .markdown-content li > ol { margin: .3em 0; }.markdown-content blockquote { margin: 1.15em 0; padding: .1em 0 .1em 1em; border-left: 3px solid var(--muted); color: var(--muted); }.markdown-content hr { height: 1px; margin: 1.8em 0; border: 0; background: var(--line); }.markdown-content code { padding: .14em .34em; border-radius: 4px; background: var(--code); font-family: var(--font-geist-mono), Consolas, monospace; font-size: .88em; }.markdown-content pre { margin: 1.15em 0; padding: 14px 16px; overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--code); font-family: var(--font-geist-mono), Consolas, monospace; font-size: 13px; line-height: 1.6; }.markdown-content pre code { padding: 0; border-radius: 0; background: transparent; font-size: inherit; }.markdown-content table { display: block; width: max-content; max-width: 100%; margin: 1.15em 0; overflow-x: auto; border-spacing: 0; border-collapse: collapse; font-size: 13px; }.markdown-content th, .markdown-content td { padding: 9px 11px; border: 1px solid var(--line); text-align: left; vertical-align: top; }.markdown-content th { background: var(--soft); font-weight: 700; }.markdown-content img { max-width: 100%; height: auto; }.loading-message { display: flex; align-items: center; gap: 5px; min-height: 16px; margin-top: -16px; }.loading-message span { width: 5px; height: 5px; border-radius: 50%; background: var(--muted); animation: pulse 1s ease-in-out infinite; }.loading-message span:nth-child(2) { animation-delay: .14s; }.loading-message span:nth-child(3) { animation-delay: .28s; }
+
+:root[data-theme="dark"] .markdown-content pre code.hljs { color: #c9d1d9; background: transparent; }
+:root[data-theme="dark"] .markdown-content pre code.hljs .hljs-doctag,
+:root[data-theme="dark"] .markdown-content pre code.hljs .hljs-keyword,
+:root[data-theme="dark"] .markdown-content pre code.hljs .hljs-meta .hljs-keyword,
+:root[data-theme="dark"] .markdown-content pre code.hljs .hljs-template-tag,
+:root[data-theme="dark"] .markdown-content pre code.hljs .hljs-template-variable,
+:root[data-theme="dark"] .markdown-content pre code.hljs .hljs-type,
+:root[data-theme="dark"] .markdown-content pre code.hljs .hljs-variable.language_ { color: #ff7b72; }
+:root[data-theme="dark"] .markdown-content pre code.hljs .hljs-title,
+:root[data-theme="dark"] .markdown-content pre code.hljs .hljs-title.class_,
+:root[data-theme="dark"] .markdown-content pre code.hljs .hljs-title.class_.inherited__,
+:root[data-theme="dark"] .markdown-content pre code.hljs .hljs-title.function_ { color: #d2a8ff; }
+:root[data-theme="dark"] .markdown-content pre code.hljs .hljs-attr,
+:root[data-theme="dark"] .markdown-content pre code.hljs .hljs-attribute,
+:root[data-theme="dark"] .markdown-content pre code.hljs .hljs-literal,
+:root[data-theme="dark"] .markdown-content pre code.hljs .hljs-meta,
+:root[data-theme="dark"] .markdown-content pre code.hljs .hljs-number,
+:root[data-theme="dark"] .markdown-content pre code.hljs .hljs-operator,
+:root[data-theme="dark"] .markdown-content pre code.hljs .hljs-variable,
+:root[data-theme="dark"] .markdown-content pre code.hljs .hljs-selector-attr,
+:root[data-theme="dark"] .markdown-content pre code.hljs .hljs-selector-class,
+:root[data-theme="dark"] .markdown-content pre code.hljs .hljs-selector-id { color: #79c0ff; }
+:root[data-theme="dark"] .markdown-content pre code.hljs .hljs-regexp,
+:root[data-theme="dark"] .markdown-content pre code.hljs .hljs-string,
+:root[data-theme="dark"] .markdown-content pre code.hljs .hljs-meta .hljs-string { color: #a5d6ff; }
+:root[data-theme="dark"] .markdown-content pre code.hljs .hljs-built_in,
+:root[data-theme="dark"] .markdown-content pre code.hljs .hljs-symbol { color: #ffa657; }
+:root[data-theme="dark"] .markdown-content pre code.hljs .hljs-comment,
+:root[data-theme="dark"] .markdown-content pre code.hljs .hljs-code,
+:root[data-theme="dark"] .markdown-content pre code.hljs .hljs-formula { color: #8b949e; }
+:root[data-theme="dark"] .markdown-content pre code.hljs .hljs-name,
+:root[data-theme="dark"] .markdown-content pre code.hljs .hljs-quote,
+:root[data-theme="dark"] .markdown-content pre code.hljs .hljs-selector-tag,
+:root[data-theme="dark"] .markdown-content pre code.hljs .hljs-selector-pseudo { color: #7ee787; }
+:root[data-theme="dark"] .markdown-content pre code.hljs .hljs-subst,
+:root[data-theme="dark"] .markdown-content pre code.hljs .hljs-emphasis,
+:root[data-theme="dark"] .markdown-content pre code.hljs .hljs-strong { color: #c9d1d9; }
+:root[data-theme="dark"] .markdown-content pre code.hljs .hljs-section { color: #79c0ff; }
+:root[data-theme="dark"] .markdown-content pre code.hljs .hljs-bullet { color: #f2cc60; }
+:root[data-theme="dark"] .markdown-content pre code.hljs .hljs-addition { color: #aff5b4; background-color: #033a16; }
+:root[data-theme="dark"] .markdown-content pre code.hljs .hljs-deletion { color: #ffdcd7; background-color: #67060c; }
 
 .composer-dock { position: fixed; z-index: 10; right: 0; bottom: 0; left: 0; padding: 16px 24px 17px; background: linear-gradient(to bottom, transparent, var(--background) 22px, var(--background)); transition: background .2s ease; }.composer-container { width: min(820px, 100%); margin: 0 auto; }.composer { display: flex; align-items: flex-end; gap: 9px; padding: 8px 8px 8px 15px; border: 1px solid var(--line); border-radius: 14px; background: var(--background); box-shadow: 0 4px 18px var(--composer-shadow); transition: border-color .15s ease, box-shadow .15s ease, background .2s ease; }.composer:focus-within { border-color: var(--muted); box-shadow: 0 0 0 2px var(--soft), 0 4px 18px var(--composer-shadow); }.composer textarea { display: block; width: 100%; min-height: 24px; max-height: 180px; padding: 6px 0; overflow-y: hidden; border: 0; outline: 0; resize: none; background: transparent; color: var(--foreground); font-size: 15px; line-height: 1.55; }.composer textarea::placeholder { color: var(--subtle-text); }.send-button { display: grid; width: 34px; height: 34px; flex: 0 0 34px; place-items: center; padding: 0; border: 0; border-radius: 9px; background: var(--foreground); color: var(--background); transition: opacity .15s ease, transform .15s ease; }.send-button svg { width: 16px; height: 16px; }.send-button:not(:disabled):hover { transform: translateY(-1px); }.send-button:disabled { cursor: default; opacity: .3; }.composer-note { margin: 9px 0 0; color: var(--subtle-text); font-size: 10px; text-align: center; }.error-message { margin: 0 0 8px; color: var(--error); font-size: 12px; text-align: center; }
 @keyframes pulse { 0%, 80%, 100% { opacity: .25; transform: translateY(0); } 40% { opacity: 1; transform: translateY(-2px); } }
