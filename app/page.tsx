@@ -50,6 +50,29 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    const viewport = window.visualViewport;
+    if (!viewport) return;
+
+    const updateKeyboardInset = () => {
+      const visibleViewportBottom = viewport.offsetTop + viewport.height;
+      const keyboardInset = Math.max(0, window.innerHeight - visibleViewportBottom);
+      document.documentElement.style.setProperty("--keyboard-inset-bottom", `${keyboardInset}px`);
+    };
+
+    updateKeyboardInset();
+    viewport.addEventListener("resize", updateKeyboardInset);
+    viewport.addEventListener("scroll", updateKeyboardInset);
+    window.addEventListener("resize", updateKeyboardInset);
+
+    return () => {
+      viewport.removeEventListener("resize", updateKeyboardInset);
+      viewport.removeEventListener("scroll", updateKeyboardInset);
+      window.removeEventListener("resize", updateKeyboardInset);
+      document.documentElement.style.removeProperty("--keyboard-inset-bottom");
+    };
+  }, []);
+
+  useEffect(() => {
     const textarea = textareaRef.current;
     if (!textarea) return;
 
