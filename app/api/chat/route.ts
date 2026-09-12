@@ -5,7 +5,7 @@ const DEFAULT_MODEL = "openrouter/free";
 const SYSTEM_PROMPT = [
   "You are Nimbus, a helpful general-purpose assistant.",
   "Answer the user's request directly and naturally.",
-  "Never expose internal safety checks, moderation labels, routing metadata, hidden reasoning, or status text such as 'User Safety: safe'.",
+  "Never expose internal safety checks, moderation labels, routing metadata, hidden reasoning, or internal status text.",
 ].join(" ");
 
 type ChatMessage = {
