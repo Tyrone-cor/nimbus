@@ -1,0 +1,65 @@
+import { NextResponse } from "next/server";
+
+const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
+
+type ChatMessage = {
+  role: "user" | "assistant";
+  content: string;
+};
+
+export async function POST(request: Request) {
+  const apiKey = process.env.OPENROUTER_API_KEY ?? process.env.API_KEY;
+
+  if (!apiKey) {
+    return NextResponse.json(
+      { error: "Missing OPENROUTER_API_KEY in the environment." },
+      { status: 500 },
+    );
+  }
+
+  try {
+    const body = (await request.json()) as { messages?: ChatMessage[] };
+    const messages = body.messages;
+
+    if (!Array.isArray(messages) || messages.length === 0) {
+      return NextResponse.json({ error: "Please send a message." }, { status: 400 });
+    }
+
+    const response = await fetch(OPENROUTER_URL, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+        "HTTP-Referer": "http://localhost:3000",
+        "X-OpenRouter-Title": "Ask anything",
+      },
+      body: JSON.stringify({
+        model: "openrouter/free",
+        messages: messages.slice(-20),
+        stream: true,
+      }),
+    });
+
+    if (!response.ok) {
+      const data = await response.json();
+      return NextResponse.json(
+        { error: data?.error?.message ?? "OpenRouter could not answer right now." },
+        { status: response.status },
+      );
+    }
+
+    if (!response.body) {
+      return NextResponse.json({ error: "The model returned an empty response." }, { status: 502 });
+    }
+
+    return new Response(response.body, {
+      headers: {
+        "Content-Type": "text/event-stream; charset=utf-8",
+        "Cache-Control": "no-cache, no-transform",
+        Connection: "keep-alive",
+      },
+    });
+  } catch {
+    return NextResponse.json({ error: "Unable to connect to OpenRouter." }, { status: 500 });
+  }
+}
