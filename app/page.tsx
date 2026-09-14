@@ -45,6 +45,16 @@ function CreatorProfile() {
         <p className="creator-label">Creator of Nimbus</p>
         <h2>Jayvee Tyrone Cordova</h2>
         <p>Freelance web developer from South Cotabato, Philippines, building practical full-stack applications with PHP, MySQL, React, TypeScript, and modern web frameworks.</p>
+        <p>
+          <a
+              href="https://www.tyronecordova.dev/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 hover:text-blue-700 transition-colors duration-200"
+          >
+              https://www.tyronecordova.dev
+          </a> 
+      </p>
       </div>
     </aside>
   );
