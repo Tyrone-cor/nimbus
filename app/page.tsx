@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
@@ -8,6 +9,7 @@ import remarkGfm from "remark-gfm";
 type Message = {
   role: "user" | "assistant";
   content: string;
+  showCreatorProfile?: boolean;
 };
 
 const starterPrompts = [
@@ -32,6 +34,19 @@ function ThemeIcon() {
       <path className="sun-icon" d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4m11.4-11.4 1.4-1.4" />
       <circle className="sun-icon" cx="12" cy="12" r="3.5" />
     </svg>
+  );
+}
+
+function CreatorProfile() {
+  return (
+    <aside className="creator-profile" aria-label="Creator profile">
+      <Image src="/api/creator-photo" alt="Jayvee Tyrone Cordova, creator of Nimbus" width={92} height={108} />
+      <div>
+        <p className="creator-label">Creator of Nimbus</p>
+        <h2>Jayvee Tyrone Cordova</h2>
+        <p>Freelance web developer from South Cotabato, Philippines, building practical full-stack applications with PHP, MySQL, React, TypeScript, and modern web frameworks.</p>
+      </div>
+    </aside>
   );
 }
 
@@ -165,7 +180,11 @@ export default function Home() {
       }
       if (!response.body) throw new Error("The assistant returned an empty response.");
 
-      setMessages((current) => [...current, { role: "assistant", content: "" }]);
+      setMessages((current) => [...current, {
+        role: "assistant",
+        content: "",
+        showCreatorProfile: response.headers.get("X-Nimbus-Creator-Profile") === "true",
+      }]);
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
       let buffer = "";
@@ -222,7 +241,10 @@ export default function Home() {
             {messages.map((message, index) => (
               <article className={`message ${message.role}`} key={`${message.role}-${index}`}>
                 {message.role === "assistant" ? (
-                  <div className="markdown-content"><ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>{message.content}</ReactMarkdown></div>
+                  <>
+                    {message.showCreatorProfile && <CreatorProfile />}
+                    <div className="markdown-content"><ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>{message.content}</ReactMarkdown></div>
+                  </>
                 ) : <p>{message.content}</p>}
               </article>
             ))}

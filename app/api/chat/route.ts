@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
 const DEFAULT_MODEL = "openrouter/free";
+const CREATOR_QUESTION_PATTERN = /\b(creator|developer|author|owner|maintainer|builder|built|developed|who is jayvee|jayvee tyrone cordova)\b/i;
 const SYSTEM_PROMPT = [
   "You are Nimbus, a helpful general-purpose assistant.",
   "Answer the user's request directly and naturally.",
@@ -22,6 +23,11 @@ type ChatMessage = {
   role: "user" | "assistant";
   content: string;
 };
+
+function asksAboutCreator(messages: ChatMessage[]) {
+  const latestMessage = messages.at(-1);
+  return latestMessage?.role === "user" && CREATOR_QUESTION_PATTERN.test(latestMessage.content);
+}
 
 export async function POST(request: Request) {
   const apiKey = process.env.OPENROUTER_API_KEY ?? process.env.API_KEY;
@@ -73,6 +79,7 @@ export async function POST(request: Request) {
         "Content-Type": "text/event-stream; charset=utf-8",
         "Cache-Control": "no-cache, no-transform",
         Connection: "keep-alive",
+        "X-Nimbus-Creator-Profile": asksAboutCreator(messages) ? "true" : "false",
       },
     });
   } catch {
